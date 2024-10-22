@@ -4,6 +4,9 @@ from gen import genFunctions, genStructs, genMacros, genUnits, genEnums
 import config
 import sys
 
+if len(sys.argv) > 1:
+    os.chdir(sys.argv[1])
+
 dbc_file_path = config.DBC_DIR
 try:
     db = cantools.database.load_file(dbc_file_path)
@@ -27,6 +30,7 @@ with open(file_path, 'w') as f:
     for message in db.messages:
         code = genFunctions.generateUnpackCode(message)
         f.write(code)
+    print(f"Generated {config.OUT_NAME}.c")
 
 
 # Main header file
@@ -45,6 +49,7 @@ with open(file_path, 'w') as f:
     for message in db.messages:
         code = genMacros.generateMacros(message)
         f.write(code)
+    print(f"Generated {config.OUT_NAME}.h")
 
 # units header file
 if config.GENERATE_UNITS:
@@ -53,6 +58,7 @@ if config.GENERATE_UNITS:
         for message in db.messages:
             code = genUnits.generateUnitCode(message)
             f.write(code)
+        print(f"Generated units.h")
 
 if config.GENERATE_ENUMS:
     file_path = os.path.join(config.HEADER_OUT_DIR, "enums.h")
@@ -60,3 +66,5 @@ if config.GENERATE_ENUMS:
         for message in db.messages:
             code = genEnums.generateEnumCode(message)
             f.write(code)
+        print(f"Generated enums.h")
+
