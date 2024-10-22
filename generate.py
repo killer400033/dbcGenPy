@@ -2,9 +2,14 @@ import cantools
 import os
 from gen import genFunctions, genStructs, genMacros, genUnits, genEnums
 import config
+import sys
 
 dbc_file_path = config.DBC_DIR
-db = cantools.database.load_file(dbc_file_path)
+try:
+    db = cantools.database.load_file(dbc_file_path)
+except Exception as e:
+    sys.stderr.write(f"{e}\n")
+    sys.exit(1)
 
 # Make sure directories exist
 os.makedirs(config.SOURCE_OUT_DIR, exist_ok=True)
