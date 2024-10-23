@@ -1,9 +1,10 @@
 import config
 from typing import Iterator, Tuple
+from gen import helpers
 
 def generateSignalCode(signal, structInstance):
     signalcode = f"\t// Extracting {signal.name}\n"
-    if (signal.scale != 1 or signal.offset != 0) and config.USE_SIGFLOAT:
+    if helpers.shouldUseSigFloat(signal):
         signalcode += f"\t{structInstance}->{signal.name} = (sigfloat_t){config.SCALE_OFFSET_PREFIX}{signal.name.upper()}({generateDataCode(signal)});\n"
     else:
         signalcode += f"\t{structInstance}->{signal.name} = {generateDataCode(signal)};\n"

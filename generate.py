@@ -1,6 +1,6 @@
 import cantools
 import os
-from gen import genFunctions, genStructs, genMacros, genUnits, genEnums
+from gen import genFunctions, genStructs, genMacros, genUnits, genEnums, genFuncPrototypes
 import config
 import sys
 
@@ -26,10 +26,7 @@ with open(file_path, 'w') as f:
     for message in db.messages:
         code = genFunctions.generateUnpackCode(message)
         f.write(code)
-
-    for message in db.messages:
-        code = genFunctions.generateUnpackCode(message)
-        f.write(code)
+        
     print(f"Generated {config.OUT_NAME}.c")
 
 
@@ -39,7 +36,17 @@ with open(file_path, 'w') as f:
     f.write("#include <stdint.h>\n\n")
 
     f.write(f"typedef {config.SIGFLOAT_TYPE} sigfloat_t;\n\n")
+    f.write(f"#define STATUS_OK 0\n")
+    f.write(f"#define STATUS_ERROR -1\n")
 
+    f.write("\n// Unpack function prototypes\n")
+
+    for message in db.messages:
+        code = genFuncPrototypes.generateFunctionPrototypes(message)
+        f.write(code)
+
+    f.write("\n\n")
+    
     for message in db.messages:
         code = genStructs.generateStructsCode(message)
         f.write(code)
