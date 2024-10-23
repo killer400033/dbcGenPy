@@ -1,6 +1,6 @@
 import cantools
 import os
-from gen import genFunctions, genStructs, genMacros, genUnits, genEnums, genFuncPrototypes
+from gen import genFunctions, genStructs, genUnits, genEnums, genValDecode
 import config
 import sys
 import shutil
@@ -36,7 +36,6 @@ with open(file_path, 'w') as f:
         
     print(f"Generated {config.OUT_NAME}.c")
 
-
 # Main header file
 file_path = os.path.join(config.HEADER_OUT_DIR, f"{config.OUT_NAME}.h")
 with open(file_path, 'w') as f:
@@ -53,13 +52,13 @@ with open(file_path, 'w') as f:
     f.write("\n// Unpack function prototypes\n")
 
     for message in db.messages:
-        code = genFuncPrototypes.generateFunctionPrototypes(message)
+        code = genFunctions.generateFunctionPrototypes(message)
         f.write(code)
     
     f.write("\n// Macros to apply scaling and offset\n")
 
     for message in db.messages:
-        code = genMacros.generateMacros(message)
+        code = genFunctions.generateMacros(message)
         f.write(code)
     print(f"Generated {config.OUT_NAME}.h")
 
@@ -72,6 +71,7 @@ if config.GENERATE_UNITS:
             f.write(code)
         print(f"Generated units.h")
 
+# enums header file
 if config.GENERATE_ENUMS:
     file_path = os.path.join(config.HEADER_OUT_DIR, "enums.h")
     with open(file_path, 'w') as f:
@@ -80,3 +80,26 @@ if config.GENERATE_ENUMS:
             f.write(code)
         print(f"Generated enums.h")
 
+
+# Val code files
+if config.GENERATE_VAL_DECODE:
+    file_path = os.path.join(config.SOURCE_OUT_DIR, "get_val.c")
+    with open(file_path, 'w') as f:
+        f.write(f"#include <string.h>\n")
+        f.write(f"#include \"get_val.h\"\n\n")
+
+        for message in db.messages:
+            code = genValDecode.generateValDecodeFunctions(message)
+            f.write(code)
+            
+        print(f"Generated get_val.c")
+
+    file_path = os.path.join(config.HEADER_OUT_DIR, "get_val.h")
+    with open(file_path, 'w') as f:
+        f.write("#include <stdint.h>\n\n")
+
+        for message in db.messages:
+            code = genValDecode.generateValDecodeFuncPrototypes(message)
+            f.write(code)
+            
+        print(f"Generated get_val.h")
