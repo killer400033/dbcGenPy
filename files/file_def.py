@@ -100,7 +100,7 @@ class SigValsSourceFile(SourceFile):
 class SigValsHeaderFile(HeaderFile):
     def __init__(self):
         self.filename = config.SIGNAL_VALS_NAME
-        self.usercodes = ['custom val defines', 'custom decode functions']
+        self.usercodes = ['custom val defines', 'custom function prototypes']
 
     def generateContent(self, f, db, user_code_content):
         f.write("#include <stdint.h>\n\n")

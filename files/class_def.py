@@ -32,7 +32,7 @@ class HeaderFile:
             with open(file_path, 'r') as f:
                 content = f.read()
                 for usercode in self.usercodes:
-                    matches = re.findall(fr'/\* USER CODE BEGIN {usercode} \*/(.*?)\s*/\* USER CODE END {usercode} \*/', content, re.DOTALL)
+                    matches = re.findall(fr'/\* USER CODE BEGIN {usercode} \*/(.*?)/\* USER CODE END {usercode} \*/', content, re.DOTALL)
                     if matches:
                         user_code_content[usercode] = matches[0]
         with open(file_path, 'w') as f:
