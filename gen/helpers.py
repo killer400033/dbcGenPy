@@ -1,15 +1,15 @@
 import config
 
-def shouldUseSigFloat(signal):
-    return (signal.scale != 1 or signal.offset != 0) and config.USE_SIGFLOAT
+def shouldUseSigFloat(signal, force_use_sigfloat=False):
+    return (signal.scale != 1 or signal.offset != 0) and (config.USE_SIGFLOAT or force_use_sigfloat)
 
-def getSignalDataType(signal):
+def getSignalDataType(signal, force_use_sigfloat=False):
     data_type = ""
 
     length = signal.length
     signed = signal.is_signed
 
-    if shouldUseSigFloat(signal):
+    if shouldUseSigFloat(signal, force_use_sigfloat):
         data_type = config.SIGFLOAT_TYPE
     else:
         if signed:
