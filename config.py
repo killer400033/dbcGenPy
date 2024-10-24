@@ -6,7 +6,7 @@ FLOAT_LITERAL_PREC = 6 # number of decimal points in generated floating literals
 # options
 GENERATE_SIGNAL_UNITS = False
 GENERATE_SIGNAL_ENUMS = True
-GENERATE_SIGNAL_VALS = False
+GENERATE_SIGNAL_VALS = True
 GENERATE_SIGNAL_TYPE_DECODE = True
 
 # Locations

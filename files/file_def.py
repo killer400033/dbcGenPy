@@ -78,43 +78,19 @@ class SigEnumsHeaderFile(HeaderFile):
 
         f.write("} signal_id_t;\n")
 
-
-class SigValsSourceFile(SourceFile):
-    def __init__(self):
-        self.filename = config.SIGNAL_VALS_NAME
-        self.usercodes = ['custom val decode functions']
-
-    def generateContent(self, f, db, user_code_content):
-        f.write(f"#include <string.h>\n")
-        f.write(f"#include \"{self.filename}.h\"\n\n")
-
-        for message in db.messages:
-            code = genValDecode.generateValDecodeFunctions(message)
-            f.write(code)
-
-        f.write(getUserCodeContent(user_code_content, 'custom val decode functions'))
-
-
 class SigValsHeaderFile(HeaderFile):
     def __init__(self):
         self.filename = config.SIGNAL_VALS_NAME
-        self.usercodes = ['custom val defines', 'custom function prototypes']
+        self.usercodes = ['custom val defines']
 
     def generateContent(self, f, db, user_code_content):
         f.write("#include <stdint.h>\n\n")
-        f.write("\n// String values of signals\n")
+        f.write("\n// Value mapping of signals\n")
         for message in db.messages:
             code = genValDecode.generateValDefines(message)
             f.write(code)
         
         f.write(getUserCodeContent(user_code_content, 'custom val defines'))
-        
-        f.write("\n\n// Function prototypes for getting val from signal\n")
-        for message in db.messages:
-            code = genValDecode.generateValDecodeFuncPrototypes(message)
-            f.write(code)
-
-        f.write(getUserCodeContent(user_code_content, 'custom function prototypes'))
 
 
 class SigTypeDecodeSourceFile(SourceFile):
@@ -123,7 +99,8 @@ class SigTypeDecodeSourceFile(SourceFile):
         self.usercodes = []
 
     def generateContent(self, f, db, user_code_content):
-        f.write(f"#include \"{self.filename}.h\"\n\n")
+        f.write(f"#include \"{self.filename}.h\"\n")
+        f.write(f"#include \"{config.MAIN_NAME}.h\"\n\n")
         f.write("// These function, given the signal in uint64_t form, returns their correct type with offset/scale applied\n\n")
         for message in db.messages:
             code = genSigTypeDecode.generateSignalTypeDecodeFunc(message)

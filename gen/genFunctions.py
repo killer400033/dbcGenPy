@@ -24,7 +24,7 @@ def generateFunctionPrototypes(message):
 def generateMacros(message):
     macroCode = ""
     for signal in message.signals:
-        if helpers.shouldUseSigFloat(signal):
+        if helpers.shouldUseSigFloat(signal) or config.GENERATE_SIGNAL_TYPE_DECODE:
             macroCode += f"#define {config.SCALE_OFFSET_PREFIX}{signal.name.upper()}(x) "
             precision = config.FLOAT_LITERAL_PREC
             macroCode += f"( (((x) * ({float(signal.scale):.{precision}f})) + ({float(signal.offset):.{precision}f})) );\n"
