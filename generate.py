@@ -1,6 +1,6 @@
 import cantools
 import os
-from files.file_def import MainSourceFile, MainHeaderFile, SigUnitsHeaderFile, SigEnumsHeaderFile, SigValsSourceFile, SigValsHeaderFile
+from files.file_def import MainSourceFile, MainHeaderFile, SigUnitsHeaderFile, SigEnumsHeaderFile, SigValsSourceFile, SigValsHeaderFile, SigTypeDecodeHeaderFile, SigTypeDecodeSourceFile
 import config
 import sys
 import shutil
@@ -37,3 +37,9 @@ if config.GENERATE_SIGNAL_VALS:
     SigValsSourceFile().generate(db)
     # Signal vals header file
     SigValsHeaderFile().generate(db)
+
+if config.GENERATE_SIGNAL_TYPE_DECODE:
+    # Signal type decode source file
+    SigTypeDecodeSourceFile().generate(db)
+    # Signal type decode header file
+    SigTypeDecodeHeaderFile().generate(db)

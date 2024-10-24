@@ -27,7 +27,6 @@ class MainHeaderFile(HeaderFile):
 
         f.write("#include <stdint.h>\n\n")
 
-        f.write(f"typedef {config.SIGFLOAT_TYPE} sigfloat_t;\n\n")
         f.write(f"#define STATUS_OK 0\n")
         f.write(f"#define STATUS_ERROR -1\n\n")
         
