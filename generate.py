@@ -15,15 +15,9 @@ except Exception as e:
     sys.stderr.write(f"{e}\n")
     sys.exit(1)
 
-# Remove old files
-def recreate_directory(dir_path):
-    if os.path.exists(dir_path):
-        shutil.rmtree(dir_path)
-    os.makedirs(dir_path)
-    print(f"Cleared {dir_path}")
-
-recreate_directory(config.SOURCE_OUT_DIR)
-recreate_directory(config.HEADER_OUT_DIR)
+# Make sure directories exist
+os.makedirs(config.SOURCE_OUT_DIR, exist_ok=True)
+os.makedirs(config.HEADER_OUT_DIR, exist_ok=True)
 
 # Main source file
 MainSourceFile().generate(db)
@@ -38,4 +32,4 @@ SigEnumsHeaderFile().generate(db)
 # Signal vals source file
 SigValsSourceFile().generate(db)
 # Signal vals header file
-SigValsHeaderFile.generate(db)
+SigValsHeaderFile().generate(db)

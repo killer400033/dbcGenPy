@@ -120,7 +120,8 @@ class SigValsHeaderFile(HeaderFile):
 
 
 def getUserCodeContent(user_code_content, name):
-    code = f'/* USER CODE BEGIN {name} */\n'
-    code += user_code_content.get(name, '')
+    code = f'\n/* USER CODE BEGIN {name} */'
+    content = user_code_content.get(name, '')
+    code += '\n' if content == '' else content
     code += f'/* USER CODE END {name} */\n'
     return code

@@ -1,5 +1,6 @@
 import config
 import os
+import re
 
 # Class definition for SourceFile and HeaderFile
 class SourceFile:
@@ -11,8 +12,11 @@ class SourceFile:
         user_code_content = {}
         if os.path.exists(file_path):
             with open(file_path, 'r') as f:
+                content = f.read()
                 for usercode in self.usercodes:
-                    user_code_content[usercode] = re.findall(fr'/\* USER CODE BEGIN {usercode} \*/(.*?)\s*/\* USER CODE END {usercode} \*/', content, re.DOTALL)
+                    matches = re.findall(fr'/\* USER CODE BEGIN {usercode} \*/(.*?)/\* USER CODE END {usercode} \*/', content, re.DOTALL)
+                    if matches:
+                        user_code_content[usercode] = matches[0]
         with open(file_path, 'w') as f:
             self.generateContent(f, db, user_code_content)
             print(f"Generated {self.filename}.c")
@@ -26,8 +30,11 @@ class HeaderFile:
         user_code_content = {}
         if os.path.exists(file_path):
             with open(file_path, 'r') as f:
+                content = f.read()
                 for usercode in self.usercodes:
-                    user_code_content[usercode] = re.findall(fr'/\* USER CODE BEGIN {usercode} \*/(.*?)\s*/\* USER CODE END {usercode} \*/', content, re.DOTALL)
+                    matches = re.findall(fr'/\* USER CODE BEGIN {usercode} \*/(.*?)\s*/\* USER CODE END {usercode} \*/', content, re.DOTALL)
+                    if matches:
+                        user_code_content[usercode] = matches[0]
         with open(file_path, 'w') as f:
             f.write(f"#ifndef {self.filename.upper()}_H\n#define {self.filename.upper()}_H\n\n")
             self.generateContent(f, db, user_code_content)
