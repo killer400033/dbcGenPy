@@ -25,11 +25,15 @@ MainSourceFile().generate(db)
 MainHeaderFile().generate(db)
 
 # Signal units header file
-SigUnitsHeaderFile().generate(db)
-# Signal enums header file
-SigEnumsHeaderFile().generate(db)
+if config.GENERATE_SIGNAL_UNITS:
+    SigUnitsHeaderFile().generate(db)
 
-# Signal vals source file
-SigValsSourceFile().generate(db)
-# Signal vals header file
-SigValsHeaderFile().generate(db)
+# Signal enums header file
+if config.GENERATE_SIGNAL_ENUMS:
+    SigEnumsHeaderFile().generate(db)
+
+if config.GENERATE_SIGNAL_VALS:
+    # Signal vals source file
+    SigValsSourceFile().generate(db)
+    # Signal vals header file
+    SigValsHeaderFile().generate(db)
