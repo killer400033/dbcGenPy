@@ -1,15 +1,16 @@
 import config
 
-def shouldUseSigFloat(signal, force_use_sigfloat=False):
-    return (signal.scale != 1 or signal.offset != 0) and (config.USE_SIGFLOAT or force_use_sigfloat)
+def shouldUseSigFloat(signal, overwrite_sigfloat=None):
+    use_sigfloat = overwrite_sigfloat if overwrite_sigfloat else config.USE_SIGFLOAT
+    return (signal.scale != 1 or signal.offset != 0) and use_sigfloat
 
-def getSignalDataType(signal, force_use_sigfloat=False):
+def getSignalDataType(signal, overwrite_sigfloat=None):
     data_type = ""
 
     length = signal.length
     signed = signal.is_signed
 
-    if shouldUseSigFloat(signal, force_use_sigfloat):
+    if shouldUseSigFloat(signal, overwrite_sigfloat):
         data_type = config.SIGFLOAT_TYPE
     else:
         if signed:
