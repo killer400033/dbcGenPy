@@ -147,8 +147,8 @@ Now, building on STM32CubeIDE should run dbcGenPy, and you should see something 
 
 # Cloning a Repo with dbcGenPy
 
-If you are just cloning a repo that already has dbcGenPy implemented, all you need to do is:
+If you are just cloning a repo that already has dbcGenPy implemented and you want to use dbc code generation, all you need to do is:
 
 - Run `git submodule update --init --recursive` in the project root directory.
-- Add `ENABLE_DBC_GEN` to you env variables (if you want to generate dbc code).
-- Run `scripts/dbcgenpy/setup.bat` if you don't have python setup already (and if you want to generate dbc code).
+- Add `ENABLE_DBC_GEN` to you env variables as shown above.
+- Run `scripts/dbcgenpy/setup.bat` if you don't have python setup already as shown.
