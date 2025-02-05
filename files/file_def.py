@@ -117,6 +117,11 @@ class SigTypeDecodeSourceFile(SourceFile):
             code = genSigTypeDecode.generateSignalTypeDecodeFunc(message)
             f.write(code)
 
+        f.write("// These function, given the signal in the decoded form, undoes the offset/scale and returns the encoded value\n\n")
+        for message in messages:
+            code = genSigTypeDecode.generateSignalTypeEncodeFunc(message)
+            f.write(code)
+
 class SigTypeDecodeHeaderFile(HeaderFile):
     def __init__(self):
         self.filename = config.SIGNAL_TYPE_DECODE_NAME
@@ -124,9 +129,16 @@ class SigTypeDecodeHeaderFile(HeaderFile):
 
     def generateContent(self, f, messages, user_code_content):
         f.write("#include <stdint.h>\n\n")
-        f.write("// Function prototypes for getting val from signal\n\n")
+        f.write("// Function prototypes for decoding signal value\n\n")
         for message in messages:
             code = genSigTypeDecode.generateSignalTypeDecodeFuncPrototypes(message)
+            f.write(code)
+
+    def generateContent(self, f, messages, user_code_content):
+        f.write("#include <stdint.h>\n\n")
+        f.write("// Function prototypes for encoding signal value\n\n")
+        for message in messages:
+            code = genSigTypeDecode.generateSignalTypeEncodeFuncPrototypes(message)
             f.write(code)
 
 
