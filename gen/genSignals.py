@@ -2,10 +2,10 @@ import config
 from typing import Iterator, Tuple
 from gen import helpers
 
-def generateSignalUnpackCode(signal, structInstance):
+def generateSignalUnpackCode(signal, structInstance, messageName):
     signalcode = f"\t// Extracting {signal.name}\n"
     if helpers.shouldUseSigFloat(signal):
-        signalcode += f"\t{structInstance}->{signal.name} = ({config.SIGFLOAT_TYPE}){config.UNPACK_SCALE_OFFSET_PREFIX}{signal.name.upper()}({generateDataUnpackCode(signal)});\n"
+        signalcode += f"\t{structInstance}->{signal.name} = ({config.SIGFLOAT_TYPE}){config.UNPACK_SCALE_OFFSET_PREFIX}{messageName.upper()}_{signal.name.upper()}({generateDataUnpackCode(signal)});\n"
     else:
         signalcode += f"\t{structInstance}->{signal.name} = {generateDataUnpackCode(signal)};\n"
     return signalcode
@@ -21,12 +21,12 @@ def generateDataUnpackCode(signal):
             datacode += f"((_d[{index}] & 0x{mask:02x}u) >> {shift}u)"
     return datacode
 
-def generateSignalPackCode(signal, structInstance):
+def generateSignalPackCode(signal, structInstance, messageName):
     datacode = ""
     for i, (index, shift, shift_dir, mask) in enumerate(getSegments(signal, False)):
         sigval = ""
         if helpers.shouldUseSigFloat(signal):
-            sigval = f"(({helpers.getUnsignedSignalDataType(signal)}){config.PACK_SCALE_OFFSET_PREFIX}{signal.name.upper()}({structInstance}->{signal.name}))"
+            sigval = f"(({helpers.getUnsignedSignalDataType(signal)}){config.PACK_SCALE_OFFSET_PREFIX}{messageName.upper()}_{signal.name.upper()}({structInstance}->{signal.name}))"
         else:
             sigval = f"(({helpers.getUnsignedSignalDataType(signal)})({structInstance}->{signal.name}))"
 

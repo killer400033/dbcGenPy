@@ -8,7 +8,7 @@ def generateUnpackCode(message):
     function_code += f"\tif (len < {message.length}u) return STATUS_ERROR;\n\n"
 
     for signal in message.signals:
-        function_code += genSignals.generateSignalUnpackCode(signal, "_m")
+        function_code += genSignals.generateSignalUnpackCode(signal, "_m", message.name)
     
     function_code += "\n\treturn STATUS_OK;\n"
     function_code += "}\n\n"
@@ -29,7 +29,7 @@ def generatePackCode(message):
     function_code += f"\tfor (uint8_t i = 0u; i < {message.length}u; _d[i++] = {config.BYTE_INIT_VALUE});\n\n"
 
     for signal in message.signals:
-        function_code += genSignals.generateSignalPackCode(signal, "_m")
+        function_code += genSignals.generateSignalPackCode(signal, "_m", message.name)
     
     function_code += "\n\treturn STATUS_OK;\n"
     function_code += "}\n\n"
@@ -46,13 +46,13 @@ def generateMacros(message):
     macroCode = ""
     for signal in message.signals:
         if helpers.shouldUseSigFloat(signal) or config.GENERATE_SIGNAL_TYPE_DECODE:
-            macroCode += f"#define {config.UNPACK_SCALE_OFFSET_PREFIX}{message.name.upper}_{signal.name.upper()}(x) "
+            macroCode += f"#define {config.UNPACK_SCALE_OFFSET_PREFIX}{message.name.upper()}_{signal.name.upper()}(x) "
             precision = config.FLOAT_LITERAL_PREC
             macroCode += f"( (((x) * ({float(signal.scale):.{precision}f})) + ({float(signal.offset):.{precision}f})) )\n"
 
     for signal in message.signals:
         if helpers.shouldUseSigFloat(signal) or config.GENERATE_SIGNAL_TYPE_DECODE:
-            macroCode += f"#define {config.PACK_SCALE_OFFSET_PREFIX}{message.name.upper}_{signal.name.upper()}(x) "
+            macroCode += f"#define {config.PACK_SCALE_OFFSET_PREFIX}{message.name.upper()}_{signal.name.upper()}(x) "
             precision = config.FLOAT_LITERAL_PREC
             macroCode += f"( (((x) - ({float(signal.offset):.{precision}f})) / ({float(signal.scale):.{precision}f})) )\n"
             
