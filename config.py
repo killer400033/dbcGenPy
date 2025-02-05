@@ -2,7 +2,10 @@ import configparser
 import os
 import sys
 
-config_path = ".cdonfig"
+if len(sys.argv) > 1:
+    os.chdir(sys.argv[1])
+
+config_path = ".config"
 config = configparser.ConfigParser()
 
 if os.path.exists(config_path):

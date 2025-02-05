@@ -5,9 +5,6 @@ import config
 import sys
 import shutil
 
-if len(sys.argv) > 1:
-    os.chdir(sys.argv[1])
-
 messages = []
 
 for dbc_dir in config.DBC_DIRS:
