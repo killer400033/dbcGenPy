@@ -11,10 +11,16 @@ class MainSourceFile(SourceFile):
 
     def generateContent(self, f, db, user_code_content):
         f.write(f"#include \"{self.filename}.h\"\n\n")
+        
+        if config.GENERATE_UNPACK:
+            for message in db.messages:
+                code = genFunctions.generateUnpackCode(message)
+                f.write(code)
 
-        for message in db.messages:
-            code = genFunctions.generateUnpackCode(message)
-            f.write(code)
+        if config.GENERATE_PACK:
+            for message in db.messages:
+                code = genFunctions.generatePackCode(message)
+                f.write(code)
 
 
 class MainHeaderFile(HeaderFile):
@@ -34,14 +40,19 @@ class MainHeaderFile(HeaderFile):
             code = genStructs.generateStructsCode(message)
             f.write(code)
 
-        f.write("\n// Unpack function prototypes\n")
+        if config.GENERATE_UNPACK:
+            f.write("\n// Unpack function prototypes\n")
+            for message in db.messages:
+                code = genFunctions.generateUnpackFunctionPrototypes(message)
+                f.write(code)
 
-        for message in db.messages:
-            code = genFunctions.generateFunctionPrototypes(message)
-            f.write(code)
+        if config.GENERATE_PACK:
+            f.write("\n// Pack function prototypes\n")
+            for message in db.messages:
+                code = genFunctions.generatePackFunctionPrototypes(message)
+                f.write(code)
         
         f.write("\n// Macros to apply scaling and offset\n")
-
         for message in db.messages:
             code = genFunctions.generateMacros(message)
             f.write(code)

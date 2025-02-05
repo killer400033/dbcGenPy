@@ -2,15 +2,15 @@ import config
 from typing import Iterator, Tuple
 from gen import helpers
 
-def generateSignalCode(signal, structInstance):
+def generateSignalUnpackCode(signal, structInstance):
     signalcode = f"\t// Extracting {signal.name}\n"
     if helpers.shouldUseSigFloat(signal):
-        signalcode += f"\t{structInstance}->{signal.name} = ({config.SIGFLOAT_TYPE}){config.SCALE_OFFSET_PREFIX}{signal.name.upper()}({generateDataCode(signal)});\n"
+        signalcode += f"\t{structInstance}->{signal.name} = ({config.SIGFLOAT_TYPE}){config.UNPACK_SCALE_OFFSET_PREFIX}{signal.name.upper()}({generateDataUnpackCode(signal)});\n"
     else:
-        signalcode += f"\t{structInstance}->{signal.name} = {generateDataCode(signal)};\n"
+        signalcode += f"\t{structInstance}->{signal.name} = {generateDataUnpackCode(signal)};\n"
     return signalcode
 
-def generateDataCode(signal):
+def generateDataUnpackCode(signal):
     datacode = ""
     for i, (index, shift, shift_dir, mask) in enumerate(getSegments(signal, True)):
         if i != 0: datacode += " | "
@@ -19,6 +19,21 @@ def generateDataCode(signal):
             datacode += f"((_d[{index}] & 0x{mask:02x}u) << {shift}u)"
         elif (shift_dir == 'right'):
             datacode += f"((_d[{index}] & 0x{mask:02x}u) >> {shift}u)"
+    return datacode
+
+def generateSignalPackCode(signal, structInstance):
+    datacode = ""
+    for i, (index, shift, shift_dir, mask) in enumerate(getSegments(signal, False)):
+        sigval = ""
+        if helpers.shouldUseSigFloat(signal):
+            sigval = f"(({helpers.getUnsignedSignalDataType(signal)}){config.UNPACK_SCALE_OFFSET_PREFIX}{signal.name.upper()}({structInstance}->{signal.name}))"
+        else:
+            sigval = f"(({helpers.getUnsignedSignalDataType(signal)})({structInstance}->{signal.name}))"
+
+        if (shift_dir == 'left'):
+            datacode += f"\t_d[{index}] |= (( {sigval} << {shift}u) & 0x{mask:02x}u);\n"
+        elif (shift_dir == 'right'):
+            datacode += f"\t_d[{index}] |= (( {sigval} >> {shift}u) & 0x{mask:02x}u);\n"
     return datacode
 
 # Code from cantools library. Refer to its source code for this function

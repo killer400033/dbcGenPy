@@ -32,3 +32,19 @@ def getSignalDataType(signal, overwrite_sigfloat=None):
             else:
                 data_type = "uint64_t"
     return data_type
+
+def getUnsignedSignalDataType(signal):
+    data_type = ""
+
+    length = signal.length
+
+    if length <= 8:
+        data_type = "uint8_t"
+    elif length <= 16:
+        data_type = "uint16_t"
+    elif length <= 32:
+        data_type = "uint32_t"
+    else:
+        data_type = "uint64_t"
+        
+    return data_type
