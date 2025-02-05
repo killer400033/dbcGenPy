@@ -179,3 +179,6 @@ cython_debug/
 # Ignore C files
 *.c
 *.h
+
+# Ignore config
+config.py
