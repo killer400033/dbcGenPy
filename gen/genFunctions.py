@@ -48,12 +48,12 @@ def generateMacros(message):
         if helpers.shouldUseSigFloat(signal) or config.GENERATE_SIGNAL_TYPE_DECODE:
             macroCode += f"#define {config.UNPACK_SCALE_OFFSET_PREFIX}{signal.name.upper()}(x) "
             precision = config.FLOAT_LITERAL_PREC
-            macroCode += f"( (((x) * ({float(signal.scale):.{precision}f})) + ({float(signal.offset):.{precision}f})) );\n"
+            macroCode += f"( (((x) * ({float(signal.scale):.{precision}f})) + ({float(signal.offset):.{precision}f})) )\n"
 
     for signal in message.signals:
         if helpers.shouldUseSigFloat(signal) or config.GENERATE_SIGNAL_TYPE_DECODE:
             macroCode += f"#define {config.PACK_SCALE_OFFSET_PREFIX}{signal.name.upper()}(x) "
             precision = config.FLOAT_LITERAL_PREC
-            macroCode += f"( (((x) - ({float(signal.offset):.{precision}f})) / ({float(signal.scale):.{precision}f})) );\n"
+            macroCode += f"( (((x) - ({float(signal.offset):.{precision}f})) / ({float(signal.scale):.{precision}f})) )\n"
             
     return macroCode

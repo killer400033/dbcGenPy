@@ -26,7 +26,7 @@ def generateSignalPackCode(signal, structInstance):
     for i, (index, shift, shift_dir, mask) in enumerate(getSegments(signal, False)):
         sigval = ""
         if helpers.shouldUseSigFloat(signal):
-            sigval = f"(({helpers.getUnsignedSignalDataType(signal)}){config.UNPACK_SCALE_OFFSET_PREFIX}{signal.name.upper()}({structInstance}->{signal.name}))"
+            sigval = f"(({helpers.getUnsignedSignalDataType(signal)}){config.PACK_SCALE_OFFSET_PREFIX}{signal.name.upper()}({structInstance}->{signal.name}))"
         else:
             sigval = f"(({helpers.getUnsignedSignalDataType(signal)})({structInstance}->{signal.name}))"
 
