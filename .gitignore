@@ -173,5 +173,9 @@ cython_debug/
 # PyPI configuration file
 .pypirc
 
-#dbc files
+# dbc files
 *.dbc
+
+# Ignore C files
+*.c
+*.h
