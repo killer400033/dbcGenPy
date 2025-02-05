@@ -134,9 +134,7 @@ class SigTypeDecodeHeaderFile(HeaderFile):
             code = genSigTypeDecode.generateSignalTypeDecodeFuncPrototypes(message)
             f.write(code)
 
-    def generateContent(self, f, messages, user_code_content):
-        f.write("#include <stdint.h>\n\n")
-        f.write("// Function prototypes for encoding signal value\n\n")
+        f.write("\n\n// Function prototypes for encoding signal value\n\n")
         for message in messages:
             code = genSigTypeDecode.generateSignalTypeEncodeFuncPrototypes(message)
             f.write(code)
