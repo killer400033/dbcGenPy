@@ -181,4 +181,4 @@ cython_debug/
 *.h
 
 # Ignore config
-config.py
+*.config

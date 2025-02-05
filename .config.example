@@ -1,0 +1,23 @@
+[GEN]
+USE_SIGFLOAT=True
+SIGFLOAT_TYPE=double
+FLOAT_LITERAL_PREC=6
+
+[OPTIONS]
+GENERATE_PACK=True
+GENERATE_UNPACK=True
+GENERATE_SIGNAL_UNITS=False
+GENERATE_SIGNAL_ENUMS=False
+GENERATE_SIGNAL_VALS=False
+GENERATE_SIGNAL_TYPE_DECODE=False
+
+[DBC_FILES]
+DBC_DIRS=
+    # Control/ControlBus.dbc
+    Sensor/SensorBus.dbc
+    # Tractive/TractiveBus.dbc
+
+[FILE_DIRS]
+SOURCE_OUT_DIR=./Lib/DBCGen/Src
+HEADER_OUT_DIR=./Lib/DBCGen/Inc
+DBC_FILE_DIR=./scripts/dbcgenpy/dbc-files
