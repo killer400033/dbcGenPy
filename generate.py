@@ -20,6 +20,12 @@ for dbc_dir in config.DBC_DIRS:
         sys.stderr.write(f"{e}\n")
         sys.exit(1)
 
+unique_messages = {}
+for message in messages:
+    unique_messages[message.name] = message
+
+messages = list(unique_messages.values())
+
 # Make sure directories exist
 os.makedirs(config.SOURCE_OUT_DIR, exist_ok=True)
 os.makedirs(config.HEADER_OUT_DIR, exist_ok=True)
