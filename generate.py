@@ -5,20 +5,27 @@ import config
 import sys
 import shutil
 
-if len(sys.argv) > 1:
-    os.chdir(sys.argv[1])
-
 messages = []
+message_sources = {}
 
 for dbc_dir in config.DBC_DIRS:
     dbc_file_path = os.path.join(config.DBC_FILE_DIR, dbc_dir)
 
     try:
         db = cantools.database.load_file(dbc_file_path)
-        messages.extend(db.messages)
+        for message in db.messages:
+            if message.name not in message_sources:
+                message_sources[message.name] = [dbc_file_path]
+                messages.append(message)
+            else:
+                message_sources[message.name].append(dbc_file_path)
     except Exception as e:
         sys.stderr.write(f"{e}\n")
         sys.exit(1)
+
+for message_name, file_paths in message_sources.items():
+    if len(file_paths) > 1:
+        sys.stderr.write(f"Warning: Can Frame '{message_name}' appears multiple times in: {', '.join(file_paths)}\n")
 
 # Make sure directories exist
 os.makedirs(config.SOURCE_OUT_DIR, exist_ok=True)
