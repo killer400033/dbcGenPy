@@ -101,6 +101,11 @@ then under `Includes` press `Add` then type `./Lib/DBCGen/Inc` and press `Ok`.
 <img src="images/image3.png" alt="Project Logo" width="800">
 
 
+then, under the same `Paths and Symbols` tab, go to `Source Location`, press `Add Folder` and select the `Lib` folder and press `Ok`.
+
+<img src="images/image10.png" alt="Project Logo" width="800">
+
+
 ## Generating code with dbcGenPy
 
 First, you need python and some dependancies installed. To do this, you can simply run `scripts/dbcgenpy/setup.bat` for windows or `scripts/dbcgenpy/setup.sh` for linux.
@@ -147,8 +152,16 @@ Now, building on STM32CubeIDE should run dbcGenPy, and you should see something 
 
 # Cloning a Repo with dbcGenPy
 
+<<<<<<< HEAD
+If you are just cloning a repo that already has dbcGenPy implemented, all you need to do is:
+
+- Run `git submodule update --init --recursive` in the project root directory.
+- Add `ENABLE_DBC_GEN` to you env variables (if you want to generate dbc code).
+- Run `scripts/dbcgenpy/setup.bat` if you don't have python setup already (and if you want to generate dbc code).
+=======
 If you are just cloning a repo that already has dbcGenPy implemented and you want to use dbc code generation, all you need to do is:
 
 - Run `git submodule update --init --recursive` in the project root directory.
 - Add `ENABLE_DBC_GEN` to you env variables as shown above.
 - Run `scripts/dbcgenpy/setup.bat` if you don't have python setup already as shown.
+>>>>>>> b4707c2bda0a93121b3b76468b19e8f5d82598b9
