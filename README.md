@@ -101,6 +101,10 @@ then under `Includes` press `Add` then type `./Lib/DBCGen/Inc` and press `Ok`.
 <img src="images/image3.png" alt="Project Logo" width="800">
 
 
+then, under the same `Paths and Symbols` tab, go to `Source Location`, press `Add Folder` and select the `Lib` folder and press `Ok`.
+
+<img src="images/image10.png" alt="Project Logo" width="800">
+
 ## Generating code with dbcGenPy
 
 First, you need python and some dependancies installed. To do this, you can simply run `scripts/dbcgenpy/setup.bat` for windows or `scripts/dbcgenpy/setup.sh` for linux.
