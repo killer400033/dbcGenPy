@@ -123,7 +123,7 @@ then under `C/C++ Build->Settings`
 
 then under `Build Steps` paste the following code into the `Pre-build steps` `Command` box:
 ```
-if [ "${ENABLE_DBC_GEN}" != "" ]; then ( if [ "$(uname)" = "Linux" ]; then python3 ${ProjDirPath}/scripts/dbcgenpy/generate.py ${ProjDirPath}; else python ${ProjDirPath}/../scripts/dbcgenpy/generate.py ${ProjDirPath}; fi ); fi
+if [ "${ENABLE_DBC_GEN}" != "" ]; then ( if [ "$(uname)" = "Linux" ]; then python3 "${ProjDirPath}/scripts/dbcgenpy/generate.py" "${ProjDirPath}"; else python "${ProjDirPath}/scripts/dbcgenpy/generate.py" "${ProjDirPath}"; fi ); fi
 ```
 
 <img src="images/image5.png" alt="Project Logo" width="800">
