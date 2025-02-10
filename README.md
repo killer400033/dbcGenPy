@@ -61,6 +61,7 @@ DBC_FILE_DIR=./scripts/dbcgenpy/dbc-files
 For starting off, these settings should be good enough.
 
 The function of each setting is:
+
 - `USE_SIGFLOAT`: If true, the Pack and Unpack functions will automatically apply scaling/ offset. If false, the scaling/ offset will *not* be applied. You can apply it apply manually using separate signal encoding and decoding functions.
 
 - `SIGFLOAT_TYPE`: The datatype of floats when `USE_SIGFLOAT=true`. Only real options are `float` and `double`.
@@ -152,16 +153,8 @@ Now, building on STM32CubeIDE should run dbcGenPy, and you should see something 
 
 # Cloning a Repo with dbcGenPy
 
-<<<<<<< HEAD
-If you are just cloning a repo that already has dbcGenPy implemented, all you need to do is:
-
-- Run `git submodule update --init --recursive` in the project root directory.
-- Add `ENABLE_DBC_GEN` to you env variables (if you want to generate dbc code).
-- Run `scripts/dbcgenpy/setup.bat` if you don't have python setup already (and if you want to generate dbc code).
-=======
 If you are just cloning a repo that already has dbcGenPy implemented and you want to use dbc code generation, all you need to do is:
 
 - Run `git submodule update --init --recursive` in the project root directory.
 - Add `ENABLE_DBC_GEN` to you env variables as shown above.
 - Run `scripts/dbcgenpy/setup.bat` if you don't have python setup already as shown.
->>>>>>> b4707c2bda0a93121b3b76468b19e8f5d82598b9
